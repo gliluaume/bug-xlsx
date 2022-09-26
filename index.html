@@ -1,0 +1,19 @@
+<html>
+    <script lang="javascript" src="node_modules/xlsx/dist/xlsx.full.min.js"></script>
+    <form>
+        <input id="picker" type="file" onchange="parse()">
+    </form>
+    <script>
+        async function parse() {
+            console.log('parsing a file')
+            const file = document.querySelector('#picker').files[0];
+            const buffer = await file.arrayBuffer();
+
+            const workbook = XLSX.read(buffer, { type: "array" });
+            Object.keys(workbook.Sheets).forEach((sheetName) => {
+                const obj = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { raw: true });
+                console.log(obj);
+            });
+        }
+    </script>
+</html>
